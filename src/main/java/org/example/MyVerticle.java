@@ -5,6 +5,8 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 
+import java.util.List;
+
 public class MyVerticle extends AbstractVerticle {
 
     @Override
@@ -13,10 +15,12 @@ public class MyVerticle extends AbstractVerticle {
         HttpServer server = vertx.createHttpServer();
         Router router = Router.router(vertx);
 
-        router.get("/").handler(new Handler<RoutingContext>() {
+        router.get("/test").handler(new Handler<RoutingContext>() {
             @Override
             public void handle(RoutingContext routingContext) {
-                routingContext.response().end("Hi! there!");
+                List<String> names = routingContext.queryParam("name");
+                List<String> titles = routingContext.queryParam("title");
+                routingContext.response().end("Hi! " + names + "\t" + titles);
             }
         });
 
